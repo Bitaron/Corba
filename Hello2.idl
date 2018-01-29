@@ -1,0 +1,8 @@
+module HelloApp2
+{
+  interface Hello2
+  {
+  string sayHello2();
+
+  };
+};

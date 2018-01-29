@@ -1,0 +1,11 @@
+#include <Hello2.idl>
+
+module HelloApp
+{
+  interface Hello
+  {
+  string sayHello();
+  void getHello2(out HelloApp2::Hello2 hello2);
+  oneway void shutdown();
+  };
+};
