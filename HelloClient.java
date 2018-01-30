@@ -29,7 +29,7 @@ public class HelloClient {
             Hello2Holder hello2Holder = new Hello2Holder();
             helloImpl.getHello2(hello2Holder);
             System.out.println(hello2Holder.value.sayHello2());
-            helloImpl.shutdown();
+           // helloImpl.shutdown();
 
         } catch (Exception e) {
             System.out.println("ERROR : " + e);

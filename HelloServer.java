@@ -43,6 +43,7 @@ class Hello2Impl extends Hello2POA {
 
     @Override
     public String sayHello2() {
+        System.out.println("In hello2 implementation.");
         return "Saying hello 2";
     }
 }
@@ -72,8 +73,7 @@ public class HelloServer {
             org.omg.CORBA.Object ref = rootpoa.servant_to_reference(helloImpl);
             Hello href = HelloHelper.narrow(ref);
 
-            org.omg.CORBA.Object ref2 = rootpoa.servant_to_reference(hello2ImpL);
-            Hello href2 = HelloHelper.narrow(ref);
+             rootpoa.servant_to_reference(hello2ImpL);
 
             // get the root naming context
             // NameService invokes the name service
@@ -87,9 +87,7 @@ public class HelloServer {
             String name = "Hello";
             NameComponent path[] = ncRef.to_name(name);
             ncRef.rebind(path, href);
-            String name2 = "Hello2";
-            NameComponent path2[] = ncRef.to_name(name2);
-            ncRef.rebind(path2, href2);
+
 
             helloImpl.setHello2(hello2ImpL._this());
             System.out.println("HelloServer ready and waiting ...");
