@@ -73,7 +73,7 @@ public class HelloServer {
             org.omg.CORBA.Object ref = rootpoa.servant_to_reference(helloImpl);
             Hello href = HelloHelper.narrow(ref);
 
-             rootpoa.servant_to_reference(hello2ImpL);
+          rootpoa.servant_to_reference(hello2ImpL);
 
             // get the root naming context
             // NameService invokes the name service
