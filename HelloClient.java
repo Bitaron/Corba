@@ -1,6 +1,7 @@
 import HelloApp.Hello;
 import HelloApp.HelloHelper;
-import HelloApp2.Hello2Holder;
+import HelloApp.TestStruct;
+import HelloApp.TestStructHolder;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
@@ -26,10 +27,12 @@ public class HelloClient {
 
             System.out.println("Obtained a handle on server object: " + helloImpl);
             System.out.println(helloImpl.sayHello());
-            Hello2Holder hello2Holder = new Hello2Holder();
-            helloImpl.getHello2(hello2Holder);
-            System.out.println(hello2Holder.value.sayHello2());
-           // helloImpl.shutdown();
+            TestStructHolder testStructParam = new TestStructHolder(new TestStruct(0));
+            TestStruct testStructReturn = helloImpl.getStruct(testStructParam);
+            System.out.println(testStructParam.value.intValue);
+            System.out.println(testStructReturn.intValue);
+            System.out.println(helloImpl.getEnum());
+            helloImpl.shutdown();
 
         } catch (Exception e) {
             System.out.println("ERROR : " + e);

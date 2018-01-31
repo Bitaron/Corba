@@ -1,11 +1,20 @@
-#include <Hello2.idl>
-
 module HelloApp
 {
+enum TestEnum
+   {
+    ONE,
+    TWO
+   };
+   struct TestStruct
+      {
+       long intValue;
+      };
   interface Hello
   {
   string sayHello();
-  void getHello2(out HelloApp2::Hello2 hello2);
+  TestEnum getEnum();
+  TestStruct getStruct(inout TestStruct testStruct);
   oneway void shutdown();
+
   };
 };
