@@ -1,8 +1,7 @@
 module HelloApp2
 {
-  interface Hello2
+  struct Hello2
   {
-  string sayHello2();
-
+  string id;
   };
 };

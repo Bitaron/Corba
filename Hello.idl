@@ -2,10 +2,21 @@
 
 module HelloApp
 {
+    typedef sequence<HelloApp2::Hello2> Hello2List;
+    interface SampleIterator
+      {
+  	    boolean  next_n(in unsigned long how_many,
+  		        out Hello2List 	meList);
+        unsigned long getLength();
+     	void	 destroy();
+      };
+
   interface Hello
   {
   string sayHello();
-  void getHello2(out HelloApp2::Hello2 hello2);
+  void getHello2(in unsigned long how_many, out Hello2List hello2List, out SampleIterator iterator);
   oneway void shutdown();
   };
+
+
 };
