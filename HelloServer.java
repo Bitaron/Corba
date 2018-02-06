@@ -7,6 +7,7 @@ import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
+import org.omg.PortableServer.POAPackage.ObjectNotActive;
 import org.omg.PortableServer.POAPackage.ServantNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 
@@ -54,7 +55,7 @@ class HelloImpl extends HelloPOA {
         hello2List.value = listToReturn.toArray(new Hello2[how_many]);
         try {
             // Add iterator.
-            SampleIteratorImpl sampleIterator = new SampleIteratorImpl(how_many, listToReturn.size() - 1);
+            SampleIteratorImpl sampleIterator = new SampleIteratorImpl(rootPoa, how_many, listToReturn.size() - 1);
             Object itObject = rootPoa.servant_to_reference(sampleIterator);
             iterator.value = SampleIteratorHelper.narrow(itObject);
         } catch (ServantNotActive servantNotActive) {
@@ -74,8 +75,10 @@ class HelloImpl extends HelloPOA {
 class SampleIteratorImpl extends SampleIteratorPOA {
     private int initialDataReturned = 0;
     private int lastIdFetched = -1;
+    private POA rootPoa;
 
-    public SampleIteratorImpl(int initialDataReturned, int lastIdFetched) {
+    public SampleIteratorImpl(POA rootPoa, int initialDataReturned, int lastIdFetched) {
+        this.rootPoa = rootPoa;
         this.initialDataReturned = initialDataReturned;
         this.lastIdFetched = lastIdFetched;
     }
@@ -124,10 +127,18 @@ class SampleIteratorImpl extends SampleIteratorPOA {
 
     @Override
     public void destroy() {
+       deactivate();
+    }
+
+    private void deactivate() {
         try {
-            this.finalize();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+            rootPoa.deactivate_object(rootPoa.servant_to_id(this));
+        } catch (ObjectNotActive objectNotActive) {
+            objectNotActive.printStackTrace();
+        } catch (WrongPolicy wrongPolicy) {
+            wrongPolicy.printStackTrace();
+        } catch (ServantNotActive servantNotActive) {
+            servantNotActive.printStackTrace();
         }
     }
 }
